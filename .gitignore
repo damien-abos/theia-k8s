@@ -1,1 +1,3 @@
 # ignore files
+package.json*
+!package.json

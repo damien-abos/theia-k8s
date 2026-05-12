@@ -1,39 +1,77 @@
 {
-  "private": true,
-  "name": "k8s-theia",
-  "version": "1.71.0",
-  "dependencies": {
-    "@theia/core": "1.71.0",
-    "@theia/editor": "1.71.0",
-    "@theia/filesystem": "1.71.0",
-    "@theia/workspace": "1.71.0",
-    "@theia/preferences": "1.71.0",
-    "@theia/navigator": "1.71.0",
-    "@theia/process": "1.71.0",
-    "@theia/terminal": "1.71.0",
-    "@theia/monaco": "1.71.0",
-    "@theia/messages": "1.71.0",
-    "@theia/plugin-ext": "1.71.0",
-    "@theia/plugin-ext-vscode": "1.71.0",
-    "@theia/getting-started": "1.71.0",
-    "@theia/markers": "1.71.0",
-    "@theia/file-search": "1.71.0",
-    "@theia/search-in-workspace": "1.71.0"
-  },
-  "devDependencies": {
-    "@theia/cli": "1.71.0"
-  },
-  "scripts": {
-    "prepare": "theia build --mode production",
-    "rebuild": "theia rebuild:browser",
-    "bundle": "npm run rebuild && theia build --mode production",
-    "start": "theia start --plugins=local-dir:plugins --hostname=0.0.0.0",
-    "download:plugins": "theia download:plugins"
-  },
-  "theiaPluginsDir": "plugins",
-  "theiaPlugins": {
-    "vscode-builtin-extensions-pack": "https://open-vsx.org/api/eclipse-theia/builtin-extension-pack/1.95.3/file/eclipse-theia.builtin-extension-pack-1.95.3.vsix",
-    "vscode.kubernetes-tools": "https://open-vsx.org/api/ms-kubernetes-tools/vscode-kubernetes-tools/1.3.18/file/ms-kubernetes-tools.vscode-kubernetes-tools-1.3.18.vsix",
-    "redhat.vscode-yaml": "https://open-vsx.org/api/redhat/vscode-yaml/1.15.0/file/redhat.vscode-yaml-1.15.0.vsix"
-  }
+    "private": true,
+    "name": "k8s-theia",
+    "version": "1.71.0",
+    "license": "EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0",
+    "theia": {
+        "frontend": {
+            "config": {
+                "applicationName": "Theia for K8S",
+                "preferences": {
+                    "files.enableTrash": false,
+                    "security.workspace.trust.enabled": false,
+                    "files.watcherExclude": {
+                        "**/.git/**": true,
+                        "**/node_modules/**": true
+                    }
+                },
+                "reloadOnReconnect": true
+            }
+        },
+        "backend": {
+            "config": {
+                "frontendConnectionTimeout": 3000
+            }
+        }
+    },
+    "theiaPluginsDir": "plugins",
+    "theiaPlugins": {
+        "vscode.yaml": "https://open-vsx.org/api/vscode/yaml/1.95.3/file/vscode.yaml-1.95.3.vsix",
+        "vscode.json": "https://open-vsx.org/api/vscode/json/1.95.3/file/vscode.json-1.95.3.vsix",
+        "vscode.json-language-features": "https://open-vsx.org/api/vscode/json-language-features/1.95.3/file/vscode.json-language-features-1.95.3.vsix",
+        "vscode.shellscript": "https://open-vsx.org/api/vscode/shellscript/1.95.3/file/vscode.shellscript-1.95.3.vsix",
+        "vscode.markdown": "https://open-vsx.org/api/vscode/markdown/1.95.3/file/vscode.markdown-1.95.3.vsix",
+        "vscode.kubernetes-tools":"https://open-vsx.org/api/ms-kubernetes-tools/vscode-kubernetes-tools/1.3.18/file/ms-kubernetes-tools.vscode-kubernetes-tools-1.3.18.vsix",
+        "redhat.vscode-yaml":"https://open-vsx.org/api/redhat/vscode-yaml/1.15.0/file/redhat.vscode-yaml-1.15.0.vsix"
+    },
+    "dependencies": {
+        "lodash": "^4.17.21",
+        "@theia/core": "1.71.0",
+        "@theia/editor": "1.71.0",
+        "@theia/file-search": "1.71.0",
+        "@theia/filesystem": "1.71.0",
+        "@theia/keymaps": "1.71.0",
+        "@theia/monaco": "1.71.0",
+        "@theia/navigator": "1.71.0",
+        "@theia/plugin-ext": "1.71.0",
+        "@theia/plugin-ext-vscode": "1.71.0",
+        "@theia/preferences": "1.71.0",
+        "@theia/search-in-workspace": "1.71.0",
+        "@theia/terminal": "1.71.0",
+        "@theia/userstorage": "1.71.0"
+    },
+    "scripts": {
+        "clean": "theia clean",
+        "build": "theiaext build && npm run -s bundle",
+        "build:production": "theiaext build && npm run -s bundle:production",
+        "bundle": "npm run rebuild && theia build --mode development",
+        "bundle:production": "npm run rebuild && theia build --mode production",
+        "compile": "tsc -b",
+        "coverage": "npm run -s test --test-coverage && npm run -s coverage:report",
+        "coverage:clean": "rimraf .nyc_output && rimraf coverage",
+        "coverage:report": "nyc report --reporter=html",
+        "rebuild": "theia rebuild:browser --cacheRoot ../..",
+        "start": "theia start --plugins=local-dir:plugins --ovsx-router-config=../ovsx-router-config.json",
+        "start:debug": "npm run -s start --log-level=debug",
+        "start:watch": "concurrently --kill-others -n tsc,bundle,run -c red,yellow,green \"tsc -b -w --preserveWatchOutput\" \"npm run -s watch:bundle\" \"npm run -s start\"",
+        "test": "theia test . --plugins=local-dir:plugins --test-spec=../api-tests/**/*.spec.js",
+        "test:debug": "npm run -s test --test-inspect",
+        "watch": "concurrently --kill-others -n tsc,bundle -c red,yellow \"tsc -b -w --preserveWatchOutput\" \"npm run -s watch:bundle\"",
+        "watch:bundle": "theia build --watch --mode development",
+        "watch:compile": "tsc -b -w"
+    },
+    "devDependencies": {
+        "@theia/cli": "1.71.0",
+        "@theia/native-webpack-plugin": "1.71.0"
+    }
 }
