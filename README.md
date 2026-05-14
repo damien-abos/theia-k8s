@@ -1,5 +1,7 @@
 # Theia for Kubernetes
 
+[![Security: Trivy](https://img.shields.io/badge/security-scanned%20with%20Trivy-blue)](https://github.com/damien-abos/theia-k8s/security)
+
 A custom [Eclipse Theia](https://theia-ide.org/) IDE distribution preconfigured for Kubernetes development. Ships as a Docker image with `kubectl`, `helm`, and the Kubernetes-related VS Code extensions baked in.
 
 Runs in the browser, supports both `amd64` and `arm64` (including Raspberry Pi 4/5).
