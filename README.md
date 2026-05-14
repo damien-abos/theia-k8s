@@ -70,11 +70,13 @@ Expected build time: 60–90 minutes (arm64 emulation under QEMU is slow).
 For a faster arm64 build, build natively on an arm64 host (Apple Silicon Mac, Raspberry Pi 5 8GB, or arm64 cloud instance).
 
 ## Project structure
+<pre>
 .
 ├── Dockerfile            # Multi-stage build (build + runtime)
 ├── package.json          # Theia dependencies and plugin list
 ├── patch-ripgrep.js      # Workaround for @theia/native-webpack-plugin
 └── README.md
+</pre>
 
 ## Configuration
 

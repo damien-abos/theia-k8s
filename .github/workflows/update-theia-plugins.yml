@@ -1,0 +1,49 @@
+name: Update Theia Plugins
+
+on:
+  schedule:
+    # Vendredi 7h heure de Paris (UTC+1 hiver, UTC+2 été)
+    - cron: '0 6 * * 5'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check-plugins:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check for plugin updates
+        id: check
+        run: node .github/scripts/check-theia-plugins.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Pull Request
+        if: steps.check.outputs.updated == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "deps(plugins): update Theia plugins from Open VSX"
+          title: "Update Theia plugins"
+          body: |
+            Automated update of Theia plugins from Open VSX Registry.
+
+            ${{ steps.check.outputs.changes }}
+
+            ---
+            Triggered by the weekly plugin update workflow.
+          branch: deps/theia-plugins
+          delete-branch: true
+          labels: |
+            dependencies
+            theia-plugins
