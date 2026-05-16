@@ -66,21 +66,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get update && apt-get install -y helm \
     && rm -rf /var/lib/apt/lists/*
 
-# Installation de krew (plugin manager pour kubectl) et oidc-login
-ARG TARGETARCH
-RUN case "${TARGETARCH}" in \
-      amd64) KREW_ARCH="amd64" ;; \
-      arm64) KREW_ARCH="arm64" ;; \
-      *) echo "Architecture ${TARGETARCH} non supportée" && exit 1 ;; \
-    esac && \
-    KREW_VERSION="v0.5.0" && \
-    cd /tmp && \
-    echo "=== TARGETARCH=${TARGETARCH}, KREW_ARCH=${KREW_ARCH} ===" && \
-    curl -fsSL "https://github.com/kubernetes-sigs/krew/releases/download/${KREW_VERSION}/krew-linux_${KREW_ARCH}.tar.gz" -o krew.tar.gz && \
-    tar -zxf krew.tar.gz && \
-    ls -la /tmp/ && \
-    echo "=== Test d'exécution ===" && \
-    /tmp/krew-linux_${KREW_ARCH} version || echo "EXEC FAILED with code $?"
+
 
 RUN adduser --system --group --uid 1001 --home /home/theia theia && \
     mkdir -p /home/project && \
@@ -90,8 +76,9 @@ ENV HOME=/home/theia \
     SHELL=/bin/bash \
     THEIA_DEFAULT_PLUGINS=local-dir:/home/theia/plugins \
     USE_LOCAL_GIT=true \
-    KREW_ROOT=/opt/krew \
-    PATH=/opt/krew/bin:$PATH
+    PATH=/home/theia/.krew/bin:$PATH
+
+
 
 WORKDIR /home/theia
 COPY --from=build --chown=theia:theia /home/theia/lib /home/theia/lib
@@ -103,6 +90,16 @@ COPY product.json /home/theia/product.json
 
 EXPOSE 3000
 USER theia
+
+# Installation de krew (plugin manager pour kubectl) et oidc-login
+ARG TARGETARCH
+RUN cd /tmp && \
+    KREW="krew-linux_${TARGETARCH}" && \
+    curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" && \
+    tar zxvf "${KREW}.tar.gz" && \
+    ./"${KREW}" install krew && \
+    kubectl krew install oidc-login ctx ns view-secret && \
+    rm -rf /tmp/${KREW}*
 
 WORKDIR /home/project
 
