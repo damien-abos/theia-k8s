@@ -75,14 +75,12 @@ RUN case "${TARGETARCH}" in \
     esac && \
     KREW_VERSION="v0.5.0" && \
     cd /tmp && \
+    echo "=== TARGETARCH=${TARGETARCH}, KREW_ARCH=${KREW_ARCH} ===" && \
     curl -fsSL "https://github.com/kubernetes-sigs/krew/releases/download/${KREW_VERSION}/krew-linux_${KREW_ARCH}.tar.gz" -o krew.tar.gz && \
     tar -zxf krew.tar.gz && \
-    ./krew-linux_${KREW_ARCH} install krew && \
-    rm -rf /tmp/krew* && \
-    mv /root/.krew /opt/krew && \
-    ln -s /opt/krew/bin/kubectl-krew /usr/local/bin/kubectl-krew && \
-    KREW_ROOT=/opt/krew /opt/krew/bin/kubectl-krew install oidc-login ctx ns view-secret && \
-    ln -s /opt/krew/store/oidc-login/*/kubelogin /usr/local/bin/kubectl-oidc_login
+    ls -la /tmp/ && \
+    echo "=== Test d'exécution ===" && \
+    /tmp/krew-linux_${KREW_ARCH} version || echo "EXEC FAILED with code $?"
 
 RUN adduser --system --group --uid 1001 --home /home/theia theia && \
     mkdir -p /home/project && \
