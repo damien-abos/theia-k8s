@@ -66,6 +66,23 @@ RUN apt-get update && apt-get install -y \
     && apt-get update && apt-get install -y helm \
     && rm -rf /var/lib/apt/lists/*
 
+# Installation de krew (plugin manager pour kubectl) et oidc-login
+ARG TARGETARCH
+RUN case "${TARGETARCH}" in \
+      amd64) KREW_ARCH="amd64" ;; \
+      arm64) KREW_ARCH="arm64" ;; \
+      *) echo "Architecture ${TARGETARCH} non supportée" && exit 1 ;; \
+    esac && \
+    cd /tmp && \
+    curl -fsSL "https://github.com/kubernetes-sigs/krew/releases/download/latest/krew-linux_${KREW_ARCH}.tar.gz" -o krew.tar.gz && \
+    tar -zxf krew.tar.gz && \
+    ./krew-linux_${KREW_ARCH} install krew && \
+    rm -rf /tmp/krew* && \
+    mv /root/.krew /opt/krew && \
+    ln -s /opt/krew/bin/kubectl-krew /usr/local/bin/kubectl-krew && \
+    KREW_ROOT=/opt/krew /opt/krew/bin/kubectl-krew install oidc-login ctx ns view-secret && \
+    ln -s /opt/krew/store/oidc-login/*/kubelogin /usr/local/bin/kubectl-oidc_login
+
 RUN adduser --system --group --uid 1001 --home /home/theia theia && \
     mkdir -p /home/project && \
     chown -R theia:theia /home/project
@@ -73,7 +90,9 @@ RUN adduser --system --group --uid 1001 --home /home/theia theia && \
 ENV HOME=/home/theia \
     SHELL=/bin/bash \
     THEIA_DEFAULT_PLUGINS=local-dir:/home/theia/plugins \
-    USE_LOCAL_GIT=true
+    USE_LOCAL_GIT=true \
+    KREW_ROOT=/opt/krew \
+    PATH=/opt/krew/bin:$PATH
 
 WORKDIR /home/theia
 COPY --from=build --chown=theia:theia /home/theia/lib /home/theia/lib
@@ -85,18 +104,6 @@ COPY product.json /home/theia/product.json
 
 EXPOSE 3000
 USER theia
-
-RUN ( \
-        set -x; cd "$(mktemp -d)" && \
-        OS="$(uname | tr '[:upper:]' '[:lower:]')" && \
-        ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" && \
-        KREW="krew-${OS}_${ARCH}" && \
-        curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" && \
-        tar zxvf "${KREW}.tar.gz" && \
-        ./"${KREW}" install krew \
-    ) && \
-    echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' >> /home/theia/.bashrc && \
-    kubectl krew install oidc-login
 
 WORKDIR /home/project
 
