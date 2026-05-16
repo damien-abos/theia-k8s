@@ -1,4 +1,4 @@
-FROM node:24-trixie AS build
+FROM node:26-trixie AS build
 
 SHELL ["/bin/bash", "-c"]
 
@@ -47,7 +47,7 @@ RUN npm run bundle:production && \
     ln -sf ../ripgrep-linux-x64/bin node_modules/@vscode/ripgrep/bin
 
 # Stage 2 : image finale
-FROM node:24-trixie-slim
+FROM node:26-trixie-slim
 
 RUN apt-get update && apt-get install -y \
     libsecret-1-0 \
