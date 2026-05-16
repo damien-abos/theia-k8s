@@ -1,3 +1,6 @@
 # ignore files
 package.json*
 !package.json
+package-lock.json
+
+node_modules
