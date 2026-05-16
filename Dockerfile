@@ -73,8 +73,9 @@ RUN case "${TARGETARCH}" in \
       arm64) KREW_ARCH="arm64" ;; \
       *) echo "Architecture ${TARGETARCH} non supportée" && exit 1 ;; \
     esac && \
+    KREW_VERSION="v0.5.0" && \
     cd /tmp && \
-    curl -fsSL "https://github.com/kubernetes-sigs/krew/releases/download/latest/krew-linux_${KREW_ARCH}.tar.gz" -o krew.tar.gz && \
+    curl -fsSL "https://github.com/kubernetes-sigs/krew/releases/download/${KREW_VERSION}/krew-linux_${KREW_ARCH}.tar.gz" -o krew.tar.gz && \
     tar -zxf krew.tar.gz && \
     ./krew-linux_${KREW_ARCH} install krew && \
     rm -rf /tmp/krew* && \
