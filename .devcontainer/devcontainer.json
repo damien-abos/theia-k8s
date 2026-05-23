@@ -1,0 +1,24 @@
+{
+    "name": "theia-k8s",
+    "image": "mcr.microsoft.com/devcontainers/base:trixie",
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {},
+        "ghcr.io/devcontainers/features/node:2": {
+            "version": "24"
+        },
+        "ghcr.io/devcontainers/features/docker-in-docker:3": {
+            "moby": false
+        }
+    },
+    postCreateCommand": "npm install -g typescript-language-server typescript",
+    "customizations": {
+        "vscode": {
+            "extensions": [],
+            "settings": {
+                "editor.formatOnSave": true
+            }
+        }
+    },
+    "forwardPorts": [],
+    "remoteUser": "vscode"
+}
