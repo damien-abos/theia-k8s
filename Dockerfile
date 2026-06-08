@@ -99,6 +99,7 @@ RUN cd /tmp && \
     tar zxvf "${KREW}.tar.gz" && \
     ./"${KREW}" install krew && \
     echo "export PATH=\"\$HOME/.krew/bin:\$PATH\"" >> ~/.bashrc && \
+    export PATH="$HOME/.krew/bin:$PATH" && \
     kubectl krew install oidc-login ctx ns view-secret && \
     rm -rf /tmp/${KREW}*
 
