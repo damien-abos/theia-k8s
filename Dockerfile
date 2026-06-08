@@ -68,15 +68,15 @@ RUN apt-get update && apt-get install -y \
 
 
 
-RUN adduser --system --group --uid 1001 --home /home/theia theia && \
+RUN adduser --uid 1001 --home /home/theia --shell /usr/sbin/nologin theia && \
+    passwd -d theia && \
     mkdir -p /home/project && \
     chown -R theia:theia /home/project
 
 ENV HOME=/home/theia \
     SHELL=/bin/bash \
     THEIA_DEFAULT_PLUGINS=local-dir:/home/theia/plugins \
-    USE_LOCAL_GIT=true \
-    PATH=/home/theia/.krew/bin:$PATH
+    USE_LOCAL_GIT=true
 
 
 
