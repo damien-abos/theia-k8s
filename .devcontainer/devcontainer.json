@@ -6,11 +6,11 @@
         "ghcr.io/devcontainers/features/node:2": {
             "version": "24"
         },
-        "ghcr.io/devcontainers/features/docker-in-docker:3": {
+        "ghcr.io/devcontainers/features/docker-in-docker:4.0.0": {
             "moby": false
         }
     },
-    postCreateCommand": "npm install -g typescript-language-server typescript",
+    "postCreateCommand": "npm install -g typescript-language-server typescript",
     "customizations": {
         "vscode": {
             "extensions": [],
