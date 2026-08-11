@@ -1,7 +1,7 @@
 {
     "private": true,
     "name": "theia-k8s",
-    "version": "1.71.1",
+    "version": "1.74.1",
     "license": "MIT",
     "theia": {
         "frontend": {
@@ -35,20 +35,20 @@
         "redhat.vscode-yaml": "https://open-vsx.org/api/redhat/vscode-yaml/1.24.2026062509/file/redhat.vscode-yaml-1.24.2026062509.vsix"
     },
     "dependencies": {
-        "lodash": "^4.17.21",
-        "@theia/core": "1.71.1",
-        "@theia/editor": "1.71.1",
-        "@theia/file-search": "1.71.1",
-        "@theia/filesystem": "1.71.1",
-        "@theia/keymaps": "1.71.1",
-        "@theia/monaco": "1.71.1",
-        "@theia/navigator": "1.71.1",
-        "@theia/plugin-ext": "1.71.1",
-        "@theia/plugin-ext-vscode": "1.71.1",
-        "@theia/preferences": "1.71.1",
-        "@theia/search-in-workspace": "1.71.1",
-        "@theia/terminal": "1.71.1",
-        "@theia/userstorage": "1.71.1"
+        "lodash": "^4.18.1",
+        "@theia/core": "1.74.1",
+        "@theia/editor": "1.74.1",
+        "@theia/file-search": "1.74.1",
+        "@theia/filesystem": "1.74.1",
+        "@theia/keymaps": "1.74.1",
+        "@theia/monaco": "1.74.1",
+        "@theia/navigator": "1.74.1",
+        "@theia/plugin-ext": "1.74.1",
+        "@theia/plugin-ext-vscode": "1.74.1",
+        "@theia/preferences": "1.74.1",
+        "@theia/search-in-workspace": "1.74.1",
+        "@theia/terminal": "1.74.1",
+        "@theia/userstorage": "1.74.1"
     },
     "scripts": {
         "clean": "theia clean",
@@ -71,7 +71,7 @@
         "watch:compile": "tsc -b -w"
     },
     "devDependencies": {
-        "@theia/cli": "1.71.1",
-        "@theia/native-webpack-plugin": "1.71.1"
+        "@theia/cli": "1.74.1",
+        "@theia/native-webpack-plugin": "1.71.2"
     }
 }

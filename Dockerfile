@@ -22,22 +22,19 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 \
 
 WORKDIR /home/theia
 
-COPY patch-ripgrep.js /tmp/patch-ripgrep.js
-
 # Mapping arch Docker -> arch ripgrep
 # - amd64 -> linux-x64
 # - arm64 -> linux-arm64
 RUN case "${TARGETARCH}" in \
-      amd64) RG_ARCH="linux-x64" ;; \
-      arm64) RG_ARCH="linux-arm64" ;; \
-      *) echo "Architecture ${TARGETARCH} non supportée" && exit 1 ;; \
+    amd64) RG_ARCH="linux-x64" ;; \
+    arm64) RG_ARCH="linux-arm64" ;; \
+    *) echo "Architecture ${TARGETARCH} non supportée" && exit 1 ;; \
     esac && \
     echo "Building for ${TARGETARCH} (ripgrep: ${RG_ARCH})" && \
     npm install && \
     ln -sf ../ripgrep-${RG_ARCH}/bin node_modules/@vscode/ripgrep/bin && \
     ls -la node_modules/@vscode/ripgrep/bin/rg && \
-    echo "module.exports = { install: function() {} };" > node_modules/v8-compile-cache/v8-compile-cache.js && \
-    node /tmp/patch-ripgrep.js
+    echo "module.exports = { install: function() {} };" > node_modules/v8-compile-cache/v8-compile-cache.js
 
 # On bundle Theia, les dépendances de production sont installées et les plugins sont téléchargés. Les node_modules de développement sont ensuite supprimés pour réduire la taille de l'image finale.
 RUN npm run bundle:production && \
