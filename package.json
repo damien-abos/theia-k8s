@@ -32,7 +32,7 @@
         "vscode.shellscript": "https://open-vsx.org/api/vscode/shellscript/1.95.3/file/vscode.shellscript-1.95.3.vsix",
         "vscode.markdown": "https://open-vsx.org/api/vscode/markdown/1.95.3/file/vscode.markdown-1.95.3.vsix",
         "vscode.kubernetes-tools": "https://open-vsx.org/api/ms-kubernetes-tools/vscode-kubernetes-tools/1.4.1/file/ms-kubernetes-tools.vscode-kubernetes-tools-1.4.1.vsix",
-        "redhat.vscode-yaml": "https://open-vsx.org/api/redhat/vscode-yaml/1.25.2026080708/file/redhat.vscode-yaml-1.25.2026080708.vsix"
+        "redhat.vscode-yaml": "https://open-vsx.org/api/redhat/vscode-yaml/1.25.2026082008/file/redhat.vscode-yaml-1.25.2026082008.vsix"
     },
     "dependencies": {
         "lodash": "^4.18.1",
