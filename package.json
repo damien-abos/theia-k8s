@@ -36,19 +36,19 @@
     },
     "dependencies": {
         "lodash": "^4.18.1",
-        "@theia/core": "1.74.1",
-        "@theia/editor": "1.74.1",
-        "@theia/file-search": "1.74.1",
-        "@theia/filesystem": "1.74.1",
-        "@theia/keymaps": "1.74.1",
-        "@theia/monaco": "1.74.1",
-        "@theia/navigator": "1.74.1",
-        "@theia/plugin-ext": "1.74.1",
-        "@theia/plugin-ext-vscode": "1.74.1",
-        "@theia/preferences": "1.74.1",
-        "@theia/search-in-workspace": "1.74.1",
-        "@theia/terminal": "1.74.1",
-        "@theia/userstorage": "1.74.1"
+        "@theia/core": "1.75.0",
+        "@theia/editor": "1.75.0",
+        "@theia/file-search": "1.75.0",
+        "@theia/filesystem": "1.75.0",
+        "@theia/keymaps": "1.75.0",
+        "@theia/monaco": "1.75.0",
+        "@theia/navigator": "1.75.0",
+        "@theia/plugin-ext": "1.75.0",
+        "@theia/plugin-ext-vscode": "1.75.0",
+        "@theia/preferences": "1.75.0",
+        "@theia/search-in-workspace": "1.75.0",
+        "@theia/terminal": "1.75.0",
+        "@theia/userstorage": "1.75.0"
     },
     "scripts": {
         "clean": "theia clean",
@@ -71,7 +71,7 @@
         "watch:compile": "tsc -b -w"
     },
     "devDependencies": {
-        "@theia/cli": "1.74.1",
+        "@theia/cli": "1.75.0",
         "@theia/native-webpack-plugin": "1.71.2"
     }
 }
