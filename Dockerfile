@@ -33,8 +33,7 @@ RUN case "${TARGETARCH}" in \
     echo "Building for ${TARGETARCH} (ripgrep: ${RG_ARCH})" && \
     npm install && \
     ln -sf ../ripgrep-${RG_ARCH}/bin node_modules/@vscode/ripgrep/bin && \
-    ls -la node_modules/@vscode/ripgrep/bin/rg && \
-    echo "module.exports = { install: function() {} };" > node_modules/v8-compile-cache/v8-compile-cache.js
+    ls -la node_modules/@vscode/ripgrep/bin/rg
 
 # On bundle Theia, les dépendances de production sont installées et les plugins sont téléchargés. Les node_modules de développement sont ensuite supprimés pour réduire la taille de l'image finale.
 RUN npm run bundle:production && \
