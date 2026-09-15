@@ -8,7 +8,7 @@ Runs in the browser, supports both `amd64` and `arm64` (including Raspberry Pi 4
 
 ## Features
 
-- **Theia 1.71** browser-based IDE
+- **Theia** browser-based IDE
 - **VS Code extensions** preinstalled: Kubernetes Tools, YAML (Red Hat), JSON, Shell, Markdown
 - **CLI tools** included: `kubectl`, `helm`, `git`, `openssh-client`
 - **Multi-architecture**: builds for `linux/amd64` and `linux/arm64`
